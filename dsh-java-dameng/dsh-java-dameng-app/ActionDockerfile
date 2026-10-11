@@ -1,0 +1,15 @@
+# dsh-java-dameng 运行镜像
+# 构建上下文为仓库根目录，jar 由 GitHub Action 中的 Maven 步骤提前构建
+FROM eclipse-temurin:17-jre
+
+LABEL org.opencontainers.image.source="https://github.com:linlannet/dsh-java-plugins/dsh-java-dameng"
+
+WORKDIR /app
+
+COPY dsh-java-dameng-app/target/dsh-java-dameng-app-*.jar app.jar
+
+EXPOSE 8094
+
+ENV JAVA_OPTS=""
+
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

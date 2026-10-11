@@ -1,0 +1,55 @@
+package net.linlan.dsh.mysql.controller;
+
+import net.linlan.dsh.mysql.model.ConnectionRequest;
+import net.linlan.dsh.mysql.model.ConnectionResponse;
+import net.linlan.dsh.mysql.service.ConnectionStore;
+import net.linlan.dsh.mysql.service.QueryService;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/connections")
+public class ConnectionController {
+    private final ConnectionStore connectionStore;
+    private final QueryService queryService;
+
+    public ConnectionController(ConnectionStore connectionStore, QueryService queryService) {
+        this.connectionStore = connectionStore;
+        this.queryService = queryService;
+    }
+
+    @GetMapping
+    public List<ConnectionResponse> list() {
+        return connectionStore.list();
+    }
+
+    @PostMapping
+    public ConnectionResponse save(@Valid @RequestBody ConnectionRequest request) {
+        ConnectionResponse response = connectionStore.save(request);
+        queryService.test(response.id());
+        return response;
+    }
+
+    @PutMapping("/{id}")
+    public ConnectionResponse update(@PathVariable("id") String id, @Valid @RequestBody ConnectionRequest request) {
+        ConnectionResponse response = connectionStore.update(id, request);
+        queryService.invalidate(id);
+        queryService.test(response.id());
+        return response;
+    }
+
+    @PostMapping("/{id}/test")
+    public Map<String, Object> test(@PathVariable("id") String id) {
+        queryService.test(id);
+        return Map.of("ok", true);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") String id) {
+        connectionStore.delete(id);
+        queryService.invalidate(id);
+    }
+}

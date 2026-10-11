@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSH MySQL Studio - 操作演示</title>
+    <style>
+        :root {
+            --bg: #0f1117;
+            --card: #1a1d29;
+            --border: #2a2f3d;
+            --text: #e6e8ef;
+            --muted: #9aa0b0;
+            --accent: #4f8cff;
+            --accent-soft: rgba(79, 140, 255, 0.12);
+            --part: #28c76f;
+            --part-soft: rgba(40, 199, 111, 0.12);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+        }
+        header {
+            padding: 48px 24px 32px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(180deg, #141824 0%, #0f1117 100%);
+        }
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        header .subtitle {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 15px;
+        }
+        header .badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+        main {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 32px 24px 64px;
+        }
+        .intro {
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 32px;
+            padding: 16px 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+        .intro code {
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "SF Mono", Menlo, Consolas, monospace;
+        }
+
+        /* 分部标题 */
+        .part {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 40px 0 20px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            background: var(--part-soft);
+            border: 1px solid rgba(40, 199, 111, 0.35);
+        }
+        .part:first-of-type { margin-top: 8px; }
+        .part .part-tag {
+            flex: none;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--part);
+            background: rgba(40, 199, 111, 0.15);
+            padding: 4px 12px;
+            border-radius: 6px;
+        }
+        .part h2 { font-size: 19px; font-weight: 700; }
+        .part .part-desc { color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+        .step {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 28px;
+            transition: border-color 0.2s ease;
+        }
+        .step:hover { border-color: var(--accent); }
+        .step-head {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--border);
+        }
+        .step-num {
+            flex: none;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .step-head h3 { font-size: 18px; font-weight: 600; }
+        .step-head .desc { color: var(--muted); font-size: 14px; margin-top: 2px; }
+
+        /* 图片前的简要文字说明 */
+        .step-note {
+            padding: 12px 22px 0;
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .step-note::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            background: var(--accent);
+            margin-right: 8px;
+            vertical-align: 1px;
+        }
+        .step-body figure { position: relative; }
+        .step-body img {
+            display: block;
+            width: 100%;
+            height: auto;
+            cursor: zoom-in;
+            background: #0a0c11;
+        }
+        figcaption {
+            padding: 10px 22px;
+            color: var(--muted);
+            font-size: 13px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            padding: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* 点击放大 - 灯箱 */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: zoom-out;
+            padding: 24px;
+        }
+        #lightbox.show { display: flex; }
+        #lightbox img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 8px;
+            box-shadow: 0 12px 48px rgba(0,0,0,0.6);
+        }
+        #lightbox .close {
+            position: absolute;
+            top: 20px;
+            right: 28px;
+            color: #fff;
+            font-size: 34px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        @media (max-width: 640px) {
+            header h1 { font-size: 22px; }
+            .part { flex-direction: column; align-items: flex-start; }
+            .step-head { padding: 14px 16px; }
+            .step-note { padding: 12px 16px 0; }
+            figcaption { padding: 8px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DSH MySQL Studio · 操作演示</h1>
+        <div class="subtitle">独立验证与 DSH-JAVA 内插件调用的完整操作流程与效果截图</div>
+        <span class="badge">Admin UI 默认端口 8091</span>
+    </header>
+
+    <main>
+        <div class="intro">
+            本演示分为两部分：<br>
+            ① <b>独立验证</b>——启动 <code>dsh-java-mysql-app</code>，配置数据源后直接使用管理后台；<br>
+            ② <b>DSH-JAVA 插件调用</b>——在 DSH-JAVA 中加载插件，由 Agent 直接调用插件工具查询数据库。
+        </div>
+
+        <!-- 第一部分 -->
+        <div class="part">
+            <span class="part-tag">第一部分</span>
+            <div>
+                <h2>启动插件配置数据源进行独立验证</h2>
+                <div class="part-desc">启动管理后台并配置数据源，独立验证对话查询、连接配置、SQL 监控、界面与性能分析。</div>
+            </div>
+        </div>
+
+        <section class="step">
+            <div class="step-head">
+                <span class="step-num">1</span>
+                <div>
+                    <h3>新对话 · 列出所有表和行数</h3>
+                    <div class="desc">通过 AI 对话助手，自然语言查询数据库，自动列出所有表及行数统计。</div>
+                </div>
+            </div>
+            <div class="step-note">启动管理后台后新建对话，向 AI 提问「列出所有表和行数」，Agent 自动返回库表清单。</div>
+            <div class="step-body">
+                <figure>
+                    <img src="assets/images/1、新对话-列出所有表和行数.png" alt="新对话-列出所有表和行数">
+                    <figcaption>图 1 · 新对话 - 列出所有表和行数</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="step">
+            <div class="step-head">
+                <span class="step-num">2</span>
+                <div>
+                    <h3>配置数据库源链接</h3>
+                    <div class="desc">填写主机、端口、数据库、用户名与密码，保存并测试数据库连接。</div>
+                </div>
+            </div>
+            <div class="step-note">点击右上角「＋ 连接」，录入数据库实例的连接信息，保存并测试连通性。</div>
+            <div class="step-body">
+                <figure>
+                    <img src="assets/images/2、配置数据库源链接.png" alt="配置数据库源链接">
+                    <figcaption>图 2 · 配置数据库源链接</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="step">
+            <div class="step-head">
+                <span class="step-num">3</span>
+                <div>
+                    <h3>查看 SQL 监控</h3>
+                    <div class="desc">查看 SQL 控制台执行结果、连接数、慢查询与进程等实例快照。</div>
+                </div>
+            </div>
+            <div class="step-note">切换到「监控」页签，查看连接数、慢查询、锁等待、进程列表等实时性能快照。</div>
+            <div class="step-body">
+                <figure>
+                    <img src="assets/images/3、查看SQL监控.png" alt="查看SQL监控">
+                    <figcaption>图 3 · 查看 SQL 监控</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="step">
+            <div class="step-head">
+                <span class="step-num">4</span>
+                <div>
+                    <h3>调整界面色系</h3>
+                    <div class="desc">切换界面主题，调整整体配色与显示风格。</div>
+                </div>
+            </div>
+            <div class="step-note">点击右上角主题切换按钮，在明暗色系之间切换，调整界面显示风格。</div>
+            <div class="step-body">
+                <figure>
+                    <img src="assets/images/4、调整界面色系.png" alt="调整界面色系">
+                    <figcaption>图 4 · 调整界面色系</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="step">
+            <div class="step-head">
+                <span class="step-num">5</span>
+                <div>
+                    <h3>新对话 · 分析数据库性能状态</h3>
+                    <div class="desc">通过 AI 对话分析数据库性能状态，诊断慢查询、连接数与锁等待等问题。</div>
+                </div>
+            </div>
+            <div class="step-note">再开新对话，让 AI 分析实例性能状态，找出慢查询隐患并给出优化建议。</div>
+            <div class="step-body">
+                <figure>
+                    <img src="assets/images/5、新对话-份许数据库性能状态.png" alt="新对话-分析数据库性能状态">
+                    <figcaption>图 5 · 新对话 - 分析数据库性能状态</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- 第二部分 -->
+        <div class="part">
+            <span class="part-tag">第二部分</span>
+            <div>
+                <h2>DSH-JAVA 内加载插件，直接进行插件调用</h2>
+                <div class="part-desc">在 DSH-JAVA 管理后台安装并激活插件，由 Agent 直接调用插件工具完成数据库查询。</div>
+            </div>
+        </div>
+
+        <section class="step">
+            <div class="step-head">
+                <span class="step-num">6</span>
+                <div>
+                    <h3>DSH-JAVA 内增加 dsh-java-mysql 插件</h3>
+                    <div class="desc">在 DSH-JAVA 管理后台中安装并激活 dsh-java-mysql 插件。</div>
+                </div>
+            </div>
+            <div class="step-note">进入 DSH-JAVA 的插件管理页，上传插件 jar 并激活 dsh-java-mysql 插件。</div>
+            <div class="step-body">
+                <figure>
+                    <img src="assets/images/6、DSH-JAVA内增加dsh-java-mysql插件.png" alt="DSH-JAVA内增加dsh-java-mysql插件">
+                    <figcaption>图 6 · DSH-JAVA 内增加 dsh-java-mysql 插件</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="step">
+            <div class="step-head">
+                <span class="step-num">7</span>
+                <div>
+                    <h3>DSH-JAVA 内开启新会话</h3>
+                    <div class="desc">在 DSH-JAVA 中开启新会话，准备使用已加载的插件能力。</div>
+                </div>
+            </div>
+            <div class="step-note">在 DSH-JAVA 中新建会话，Agent 已具备插件工具能力，等待用户提问。</div>
+            <div class="step-body">
+                <figure>
+                    <img src="assets/images/7、DSH-JAVA内开启新会话.png" alt="DSH-JAVA内开启新会话">
+                    <figcaption>图 7 · DSH-JAVA 内开启新会话</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="step">
+            <div class="step-head">
+                <span class="step-num">8</span>
+                <div>
+                    <h3>直接通过插件进行查询</h3>
+                    <div class="desc">无需独立管理后台，直接通过 Agent 调用插件工具查询数据库。</div>
+                </div>
+            </div>
+            <div class="step-note">在会话中直接提问，Agent 识别意图后自动调用 plugin__dsh-java-mysql-plugin 工具查询数据库。</div>
+            <div class="step-body">
+                <figure>
+                    <img src="assets/images/8、直接通过插件进行查询 .png" alt="直接通过插件进行查询">
+                    <figcaption>图 8 · 直接通过插件进行查询</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="step">
+            <div class="step-head">
+                <span class="step-num">9</span>
+                <div>
+                    <h3>展示基于插件的查询结果</h3>
+                    <div class="desc">展示插件查询返回的真实数据结果，验证插件调用链路正确。</div>
+                </div>
+            </div>
+            <div class="step-note">Agent 返回插件查询到的真实数据，完成从「插件调用」到「结果展示」的完整闭环。</div>
+            <div class="step-body">
+                <figure>
+                    <img src="assets/images/9、展示基于插件的查询结果.png" alt="展示基于插件的查询结果">
+                    <figcaption>图 9 · 展示基于插件的查询结果</figcaption>
+                </figure>
+            </div>
+        </section>
+    </main>
+
+    <footer>DSH MySQL Studio Powered by Harness · 图片可点击放大查看</footer>
+
+    <!-- 灯箱放大 -->
+    <div id="lightbox">
+        <span class="close" id="lightboxClose">&times;</span>
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <script>
+        (function () {
+            var lightbox = document.getElementById('lightbox');
+            var lightboxImg = document.getElementById('lightboxImg');
+            var imgs = document.querySelectorAll('.step-body img');
+
+            imgs.forEach(function (img) {
+                img.addEventListener('click', function () {
+                    lightboxImg.src = img.src;
+                    lightbox.classList.add('show');
+                });
+            });
+
+            function close() {
+                lightbox.classList.remove('show');
+                lightboxImg.src = '';
+            }
+            lightbox.addEventListener('click', close);
+            document.getElementById('lightboxClose').addEventListener('click', function (e) {
+                e.stopPropagation();
+                close();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') close();
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+id: dsh-java-mysql-plugin
+name: DSH MySQL Plugin
+version: 0.2.0
+author: Harness Team
+description: Safe MySQL metadata, read-query, EXPLAIN and performance tools for DeepSeek Harness.
+entrypoint: net.linlan.dsh.mysql.plugin.DshMysqlPlugin

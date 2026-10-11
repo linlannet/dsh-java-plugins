@@ -1,0 +1,16 @@
+server:
+  port: 8094
+
+spring:
+  application:
+    name: dsh-java-dameng
+  jackson:
+    default-property-inclusion: non_null
+
+dsh:
+  dameng:
+    data-directory: ${user.home}/.dsh-java-dameng
+    query-timeout-seconds: 15
+    max-rows: 500
+    harness:
+      base-url: ${DSH_HARNESS_BASE_URL:http://127.0.0.1:8090}

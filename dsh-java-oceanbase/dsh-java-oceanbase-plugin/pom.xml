@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>net.linlan.dsh</groupId>
+        <artifactId>dsh-java-oceanbase</artifactId>
+        <version>0.2.0</version>
+    </parent>
+
+    <artifactId>dsh-java-oceanbase-plugin</artifactId>
+    <name>dsh-java-oceanbase-plugin</name>
+    <description>DeepSeek Harness Java Native Plugin for the online OceanBase administration console.</description>
+    <url>https://github.com/linlannet/linlannet/tree/main/dsh-java-plugins/dsh-java-oceanbase/dsh-java-oceanbase-plugin</url>
+
+    <licenses>
+        <license>
+            <name>Apache-2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/linlannet/linlannet/tree/main/dsh-java-plugins/dsh-java-oceanbase/dsh-java-oceanbase-plugin</url>
+        <connection>scm:git:git://gitee.com/linlannet/linlannet.git</connection>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>linlan</id>
+            <name>linlan info</name>
+            <email>linlannet@163.com</email>
+            <organization>Linlan Corporation</organization>
+            <url>https://gitee.com/linlaninfo</url>
+            <roles>
+                <role>Member</role>
+            </roles>
+            <timezone>Asia/Beijing</timezone>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.linlan.dsh</groupId>
+            <artifactId>dsh-java-types</artifactId>
+            <version>0.2.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

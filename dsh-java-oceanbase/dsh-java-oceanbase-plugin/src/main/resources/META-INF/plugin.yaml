@@ -1,0 +1,6 @@
+id: dsh-java-oceanbase-plugin
+name: DSH OceanBase Plugin
+version: 0.2.0
+author: Harness Team
+description: Safe OceanBase metadata, read-query, EXPLAIN and performance tools for DeepSeek Harness.
+entrypoint: net.linlan.dsh.oceanbase.plugin.DshOceanBasePlugin

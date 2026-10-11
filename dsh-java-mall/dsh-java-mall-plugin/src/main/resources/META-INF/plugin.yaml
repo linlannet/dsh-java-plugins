@@ -1,0 +1,6 @@
+id: dsh-java-mall-plugin
+name: DSH Java Mall App
+version: 0.2.0
+author: Harness Team
+description: DSH Java Mall smart customer service plugin for product, order and logistics queries.
+entrypoint: net.linlan.dsh.mall.plugin.DshJavaMallPlugin

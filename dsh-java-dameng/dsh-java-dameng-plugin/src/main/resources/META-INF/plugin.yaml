@@ -1,0 +1,6 @@
+id: dsh-java-dameng-plugin
+name: DSH DaMeng Plugin
+version: 0.2.0
+author: Harness Team
+description: Safe DaMeng metadata, read-query, EXPLAIN and performance tools for DeepSeek Harness.
+entrypoint: net.linlan.dsh.dameng.plugin.DshDamengPlugin
