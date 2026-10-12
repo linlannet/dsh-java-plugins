@@ -49,7 +49,7 @@ mvn package -DskipTests
 ### 2. 启动管理后台
 
 ```bash
-java -jar dsh-java-mysql-app/target/dsh-java-mysql-app-0.1.0-SNAPSHOT.jar
+java -jar dsh-java-mysql-app/target/dsh-java-mysql-app-0.2.1-exec.jar
 ```
 
 或开发模式：
@@ -77,11 +77,11 @@ AI 对话依赖 `deepseek-harness-java`（默认 `http://127.0.0.1:8090`）提�
 先启动 `deepseek-harness-java`（端口 8090），然后：
 
 ```bash
-JAR="$PWD/dsh-java-mysql-plugin/target/dsh-java-mysql-plugin-0.1.0-SNAPSHOT.jar"
+JAR="$PWD/dsh-java-mysql-plugin/target/dsh-java-mysql-plugin-0.2.1.jar"
 
 curl -X POST http://localhost:8090/api/harness/plugins/install \
   -H 'Content-Type: application/json' \
-  -d "{\"pluginId\":\"dsh-java-mysql-plugin\",\"displayName\":\"DSH MySQL Plugin\",\"pluginVersion\":\"0.1.0\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-mysql-plugin-0.1.0-SNAPSHOT.jar\"}"
+  -d "{\"pluginId\":\"dsh-java-mysql-plugin\",\"displayName\":\"DSH MySQL Plugin\",\"pluginVersion\":\"0.2.1\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-mysql-plugin-0.2.1.jar\"}"
 
 curl -X POST http://localhost:8090/api/harness/plugins/activate \
   -H 'Content-Type: application/json' \

@@ -57,7 +57,7 @@ dsh-java-plugins/
 
 - JDK 17+
 - Maven 3.9+
-- dsh-java 0.2.0（提供 `dsh-java-types` 契约包）
+- dsh-java 0.2.1（提供 `dsh-java-types` 契约包）
 - 可选（被管理的目标实例）：MySQL 5.7+ / 8.x、OceanBase（MySQL 兼容模式）、DaMeng 8（JDBC 驱动已内置）
 
 ## 快速开始
@@ -70,19 +70,25 @@ cd dsh-java-plugins
 mvn package -DskipTests
 ```
 
+> **exec 打包说明**：与 `dsh-java/dsh-java-app` 保持一致，App 模块的 fat jar 附加 `exec` classifier 且 `attach=false`：
+> - `xxx-app-<version>-exec.jar`：fat jar，可直接 `java -jar` 运行，只生成在 `target/`，不 install/deploy 到 Maven Central（避免占用 central.sonatype.com 空间限额）
+> - `xxx-app-<version>.jar`：瘦 jar，作为库构件正常上传
+>
+> 也可以直接用 `scripts/start-mysql.sh`、`scripts/start-oceanbase.sh`、`scripts/start-dameng.sh`、`scripts/start-mall.sh` 启动（自动选择 `-exec.jar`）。
+
 ### 2. 启动数据库管理后台
 
 三个数据库管理后台用法一致，按需要启动（端口各不相同）：
 
 ```bash
 # MySQL（端口 8091）
-java -jar dsh-java-mysql/dsh-java-mysql-app/target/dsh-java-mysql-app-0.2.0.jar
+java -jar dsh-java-mysql/dsh-java-mysql-app/target/dsh-java-mysql-app-0.2.1-exec.jar
 
 # OceanBase（端口 8093）
-java -jar dsh-java-oceanbase/dsh-java-oceanbase-app/target/dsh-java-oceanbase-app-0.2.0.jar
+java -jar dsh-java-oceanbase/dsh-java-oceanbase-app/target/dsh-java-oceanbase-app-0.2.1-exec.jar
 
 # DaMeng（端口 8094）
-java -jar dsh-java-dameng/dsh-java-dameng-app/target/dsh-java-dameng-app-0.2.0.jar
+java -jar dsh-java-dameng/dsh-java-dameng-app/target/dsh-java-dameng-app-0.2.1-exec.jar
 ```
 
 | 工程 | 访问地址 |
@@ -96,7 +102,7 @@ java -jar dsh-java-dameng/dsh-java-dameng-app/target/dsh-java-dameng-app-0.2.0.j
 ### 3. 启动虚拟商城
 
 ```bash
-java -jar dsh-java-mall/dsh-java-mall-app/target/dsh-java-mall-app-0.2.0.jar
+java -jar dsh-java-mall/dsh-java-mall-app/target/dsh-java-mall-app-0.2.1-exec.jar
 ```
 
 打开 <http://127.0.0.1:8092>，默认演示用户 `customer-1`。
@@ -107,34 +113,34 @@ java -jar dsh-java-mall/dsh-java-mall-app/target/dsh-java-mall-app-0.2.0.jar
 
 ```bash
 # MySQL 插件
-JAR="$PWD/dsh-java-mysql/dsh-java-mysql-plugin/target/dsh-java-mysql-plugin-0.2.0.jar"
+JAR="$PWD/dsh-java-mysql/dsh-java-mysql-plugin/target/dsh-java-mysql-plugin-0.2.1.jar"
 curl -X POST http://localhost:8090/api/harness/plugins/install \
   -H 'Content-Type: application/json' \
-  -d "{\"pluginId\":\"dsh-java-mysql-plugin\",\"displayName\":\"DSH MySQL Plugin\",\"pluginVersion\":\"0.2.0\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-mysql-plugin-0.2.0.jar\"}"
+  -d "{\"pluginId\":\"dsh-java-mysql-plugin\",\"displayName\":\"DSH MySQL Plugin\",\"pluginVersion\":\"0.2.1\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-mysql-plugin-0.2.1.jar\"}"
 curl -X POST http://localhost:8090/api/harness/plugins/activate \
   -H 'Content-Type: application/json' -d '{"pluginId":"dsh-java-mysql-plugin"}'
 
 # OceanBase 插件
-JAR="$PWD/dsh-java-oceanbase/dsh-java-oceanbase-plugin/target/dsh-java-oceanbase-plugin-0.2.0.jar"
+JAR="$PWD/dsh-java-oceanbase/dsh-java-oceanbase-plugin/target/dsh-java-oceanbase-plugin-0.2.1.jar"
 curl -X POST http://localhost:8090/api/harness/plugins/install \
   -H 'Content-Type: application/json' \
-  -d "{\"pluginId\":\"dsh-java-oceanbase-plugin\",\"displayName\":\"DSH OceanBase Plugin\",\"pluginVersion\":\"0.2.0\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-oceanbase-plugin-0.2.0.jar\"}"
+  -d "{\"pluginId\":\"dsh-java-oceanbase-plugin\",\"displayName\":\"DSH OceanBase Plugin\",\"pluginVersion\":\"0.2.1\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-oceanbase-plugin-0.2.1.jar\"}"
 curl -X POST http://localhost:8090/api/harness/plugins/activate \
   -H 'Content-Type: application/json' -d '{"pluginId":"dsh-java-oceanbase-plugin"}'
 
 # DaMeng 插件
-JAR="$PWD/dsh-java-dameng/dsh-java-dameng-plugin/target/dsh-java-dameng-plugin-0.2.0.jar"
+JAR="$PWD/dsh-java-dameng/dsh-java-dameng-plugin/target/dsh-java-dameng-plugin-0.2.1.jar"
 curl -X POST http://localhost:8090/api/harness/plugins/install \
   -H 'Content-Type: application/json' \
-  -d "{\"pluginId\":\"dsh-java-dameng-plugin\",\"displayName\":\"DSH DaMeng Plugin\",\"pluginVersion\":\"0.2.0\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-dameng-plugin-0.2.0.jar\"}"
+  -d "{\"pluginId\":\"dsh-java-dameng-plugin\",\"displayName\":\"DSH DaMeng Plugin\",\"pluginVersion\":\"0.2.1\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-dameng-plugin-0.2.1.jar\"}"
 curl -X POST http://localhost:8090/api/harness/plugins/activate \
   -H 'Content-Type: application/json' -d '{"pluginId":"dsh-java-dameng-plugin"}'
 
 # Mall 插件
-JAR="$PWD/dsh-java-mall/dsh-java-mall-plugin/target/dsh-java-mall-plugin-0.2.0.jar"
+JAR="$PWD/dsh-java-mall/dsh-java-mall-plugin/target/dsh-java-mall-plugin-0.2.1.jar"
 curl -X POST http://localhost:8090/api/harness/plugins/install \
   -H 'Content-Type: application/json' \
-  -d "{\"pluginId\":\"dsh-java-mall-plugin\",\"displayName\":\"DSH Mall Plugin\",\"pluginVersion\":\"0.2.0\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-mall-plugin-0.2.0.jar\"}"
+  -d "{\"pluginId\":\"dsh-java-mall-plugin\",\"displayName\":\"DSH Mall Plugin\",\"pluginVersion\":\"0.2.1\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-mall-plugin-0.2.1.jar\"}"
 curl -X POST http://localhost:8090/api/harness/plugins/activate \
   -H 'Content-Type: application/json' -d '{"pluginId":"dsh-java-mall-plugin"}'
 ```
@@ -190,7 +196,7 @@ curl -X POST http://localhost:8090/api/harness/plugins/activate \
 1. **目录命名**：`{项目名}-app`（Spring Boot 应用）+ `{项目名}-plugin`（Harness 插件）
 2. **包路径**：`net.linlan.dsh.{业务域}`，底层契约包 `net.linlan.dsh.domain.*`
 3. **groupId**：`net.linlan.dsh`
-4. **types 依赖**：`net.linlan:dsh-java-types:0.2.0`，scope=provided
+4. **types 依赖**：`net.linlan:dsh-java-types:0.2.1`，scope=provided
 5. **SPI 注册**：`META-INF/services/net.linlan.dsh.domain.spi.JavaHarnessPlugin` 文件内写入插件入口类全限定名
 6. **plugin.yaml**：`META-INF/plugin.yaml` 声明插件 id、name、version、entrypoint
 7. **工具实现**：继承 `AbstractTool`，实现 `name()`/`description()`/`parameters()`/`run()`，通过 `objectSchema()`/`stringSchema()` 构建参数 schema

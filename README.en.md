@@ -56,7 +56,7 @@ Browser ──► Admin UI ──► Admin API ──► Data Source
 
 - JDK 17+
 - Maven 3.9+
-- dsh-java 0.2.0 (provides `dsh-java-types` contract package)
+- dsh-java 0.2.1 (provides `dsh-java-types` contract package)
 - Optional (target instances to manage): MySQL 5.7+ / 8.x, OceanBase (MySQL-compatible mode), DaMeng 8 (JDBC driver bundled)
 
 ## Quick Start
@@ -69,19 +69,25 @@ cd dsh-java-plugins
 mvn package -DskipTests
 ```
 
+> **exec packaging**: Consistent with `dsh-java/dsh-java-app`, the app modules attach the fat jar with the `exec` classifier and `attach=false`:
+> - `xxx-app-<version>-exec.jar`: fat jar, runnable with `java -jar`, generated only in `target/`, never installed/deployed to Maven Central (avoids the central.sonatype.com space quota)
+> - `xxx-app-<version>.jar`: thin jar, uploaded as a normal library artifact
+>
+> You can also start the apps with `scripts/start-mysql.sh`, `scripts/start-oceanbase.sh`, `scripts/start-dameng.sh`, `scripts/start-mall.sh` (they pick `-exec.jar` automatically).
+
 ### 2. Start Database Admin Consoles
 
 The three database admin consoles work the same way; start the ones you need (each uses its own port):
 
 ```bash
 # MySQL (port 8091)
-java -jar dsh-java-mysql/dsh-java-mysql-app/target/dsh-java-mysql-app-0.2.0.jar
+java -jar dsh-java-mysql/dsh-java-mysql-app/target/dsh-java-mysql-app-0.2.1-exec.jar
 
 # OceanBase (port 8093)
-java -jar dsh-java-oceanbase/dsh-java-oceanbase-app/target/dsh-java-oceanbase-app-0.2.0.jar
+java -jar dsh-java-oceanbase/dsh-java-oceanbase-app/target/dsh-java-oceanbase-app-0.2.1-exec.jar
 
 # DaMeng (port 8094)
-java -jar dsh-java-dameng/dsh-java-dameng-app/target/dsh-java-dameng-app-0.2.0.jar
+java -jar dsh-java-dameng/dsh-java-dameng-app/target/dsh-java-dameng-app-0.2.1-exec.jar
 ```
 
 | Module | URL |
@@ -95,7 +101,7 @@ Open the corresponding URL, add a database connection to use the SQL console and
 ### 3. Start Virtual Mall
 
 ```bash
-java -jar dsh-java-mall/dsh-java-mall-app/target/dsh-java-mall-app-0.2.0.jar
+java -jar dsh-java-mall/dsh-java-mall-app/target/dsh-java-mall-app-0.2.1-exec.jar
 ```
 
 Open <http://127.0.0.1:8092>, default demo user is `customer-1`.
@@ -106,34 +112,34 @@ Start `dsh-java` (port 8090) first, then install the plugins you need:
 
 ```bash
 # MySQL plugin
-JAR="$PWD/dsh-java-mysql/dsh-java-mysql-plugin/target/dsh-java-mysql-plugin-0.2.0.jar"
+JAR="$PWD/dsh-java-mysql/dsh-java-mysql-plugin/target/dsh-java-mysql-plugin-0.2.1.jar"
 curl -X POST http://localhost:8090/api/harness/plugins/install \
   -H 'Content-Type: application/json' \
-  -d "{\"pluginId\":\"dsh-java-mysql-plugin\",\"displayName\":\"DSH MySQL Plugin\",\"pluginVersion\":\"0.2.0\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-mysql-plugin-0.2.0.jar\"}"
+  -d "{\"pluginId\":\"dsh-java-mysql-plugin\",\"displayName\":\"DSH MySQL Plugin\",\"pluginVersion\":\"0.2.1\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-mysql-plugin-0.2.1.jar\"}"
 curl -X POST http://localhost:8090/api/harness/plugins/activate \
   -H 'Content-Type: application/json' -d '{"pluginId":"dsh-java-mysql-plugin"}'
 
 # OceanBase plugin
-JAR="$PWD/dsh-java-oceanbase/dsh-java-oceanbase-plugin/target/dsh-java-oceanbase-plugin-0.2.0.jar"
+JAR="$PWD/dsh-java-oceanbase/dsh-java-oceanbase-plugin/target/dsh-java-oceanbase-plugin-0.2.1.jar"
 curl -X POST http://localhost:8090/api/harness/plugins/install \
   -H 'Content-Type: application/json' \
-  -d "{\"pluginId\":\"dsh-java-oceanbase-plugin\",\"displayName\":\"DSH OceanBase Plugin\",\"pluginVersion\":\"0.2.0\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-oceanbase-plugin-0.2.0.jar\"}"
+  -d "{\"pluginId\":\"dsh-java-oceanbase-plugin\",\"displayName\":\"DSH OceanBase Plugin\",\"pluginVersion\":\"0.2.1\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-oceanbase-plugin-0.2.1.jar\"}"
 curl -X POST http://localhost:8090/api/harness/plugins/activate \
   -H 'Content-Type: application/json' -d '{"pluginId":"dsh-java-oceanbase-plugin"}'
 
 # DaMeng plugin
-JAR="$PWD/dsh-java-dameng/dsh-java-dameng-plugin/target/dsh-java-dameng-plugin-0.2.0.jar"
+JAR="$PWD/dsh-java-dameng/dsh-java-dameng-plugin/target/dsh-java-dameng-plugin-0.2.1.jar"
 curl -X POST http://localhost:8090/api/harness/plugins/install \
   -H 'Content-Type: application/json' \
-  -d "{\"pluginId\":\"dsh-java-dameng-plugin\",\"displayName\":\"DSH DaMeng Plugin\",\"pluginVersion\":\"0.2.0\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-dameng-plugin-0.2.0.jar\"}"
+  -d "{\"pluginId\":\"dsh-java-dameng-plugin\",\"displayName\":\"DSH DaMeng Plugin\",\"pluginVersion\":\"0.2.1\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-dameng-plugin-0.2.1.jar\"}"
 curl -X POST http://localhost:8090/api/harness/plugins/activate \
   -H 'Content-Type: application/json' -d '{"pluginId":"dsh-java-dameng-plugin"}'
 
 # Mall plugin
-JAR="$PWD/dsh-java-mall/dsh-java-mall-plugin/target/dsh-java-mall-plugin-0.2.0.jar"
+JAR="$PWD/dsh-java-mall/dsh-java-mall-plugin/target/dsh-java-mall-plugin-0.2.1.jar"
 curl -X POST http://localhost:8090/api/harness/plugins/install \
   -H 'Content-Type: application/json' \
-  -d "{\"pluginId\":\"dsh-java-mall-plugin\",\"displayName\":\"DSH Mall Plugin\",\"pluginVersion\":\"0.2.0\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-mall-plugin-0.2.0.jar\"}"
+  -d "{\"pluginId\":\"dsh-java-mall-plugin\",\"displayName\":\"DSH Mall Plugin\",\"pluginVersion\":\"0.2.1\",\"runtimeType\":\"JAVA_NATIVE\",\"sourcePath\":\"$JAR\",\"entrypoint\":\"dsh-java-mall-plugin-0.2.1.jar\"}"
 curl -X POST http://localhost:8090/api/harness/plugins/activate \
   -H 'Content-Type: application/json' -d '{"pluginId":"dsh-java-mall-plugin"}'
 ```
@@ -189,7 +195,7 @@ curl -X POST http://localhost:8090/api/harness/plugins/activate \
 1. **Directory naming**: `{project-name}-app` (Spring Boot app) + `{project-name}-plugin` (Harness plugin)
 2. **Package path**: `net.linlan.dsh.{domain}`, contract package `net.linlan.dsh.domain.*`
 3. **groupId**: `net.linlan.dsh`
-4. **types dependency**: `net.linlan:dsh-java-types:0.2.0`, scope=provided
+4. **types dependency**: `net.linlan:dsh-java-types:0.2.1`, scope=provided
 5. **SPI registration**: `META-INF/services/net.linlan.dsh.domain.spi.JavaHarnessPlugin` containing the plugin entry class FQN
 6. **plugin.yaml**: `META-INF/plugin.yaml` declaring plugin id, name, version, entrypoint
 7. **Tool implementation**: Extend `AbstractTool`, implement `name()`/`description()`/`parameters()`/`run()`, use `objectSchema()`/`stringSchema()` for parameter schema

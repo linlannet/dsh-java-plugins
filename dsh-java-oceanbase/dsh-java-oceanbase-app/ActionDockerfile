@@ -6,7 +6,8 @@ LABEL org.opencontainers.image.source="https://github.com:linlannet/dsh-java-plu
 
 WORKDIR /app
 
-COPY dsh-java-oceanbase-app/target/dsh-java-oceanbase-app-*.jar app.jar
+# 只拷贝 exec classifier 的 fat jar；瘦 jar（dsh-java-oceanbase-app-<version>.jar）不可直接运行
+COPY dsh-java-oceanbase-app/target/dsh-java-oceanbase-app-*-exec.jar app.jar
 
 EXPOSE 8093
 

@@ -6,7 +6,7 @@
     <parent>
         <groupId>net.linlan.dsh</groupId>
         <artifactId>dsh-java-mysql</artifactId>
-        <version>0.2.0</version>
+        <version>0.2.1</version>
     </parent>
 
     <artifactId>dsh-java-mysql-app</artifactId>
@@ -72,6 +72,11 @@
                         <goals>
                             <goal>repackage</goal>
                         </goals>
+
+                        <configuration>
+                            <classifier>exec</classifier>
+                            <attach>false</attach>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

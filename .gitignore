@@ -17,6 +17,8 @@
 
 # Maven
 target/
+# scripts/package-jars.sh 收集的 exec fat jar 产物（体积大，不入库）
+dist/
 
 # Gradle
 build
