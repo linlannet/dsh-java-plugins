@@ -12,7 +12,7 @@
     <artifactId>dsh-java-oceanbase-plugin</artifactId>
     <name>dsh-java-oceanbase-plugin</name>
     <description>DeepSeek Harness Java Native Plugin for the online OceanBase administration console.</description>
-    <url>https://github.com/linlannet/linlannet/tree/main/dsh-java-plugins/dsh-java-oceanbase/dsh-java-oceanbase-plugin</url>
+    <url>https://github.com/linlannet/dsh-java-plugins/tree/main/dsh-java-oceanbase/dsh-java-oceanbase-plugin</url>
 
     <licenses>
         <license>
@@ -22,8 +22,8 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/linlannet/linlannet/tree/main/dsh-java-plugins/dsh-java-oceanbase/dsh-java-oceanbase-plugin</url>
-        <connection>scm:git:git://gitee.com/linlannet/linlannet.git</connection>
+        <url>https://github.com/linlannet/dsh-java-plugins/tree/main/dsh-java-oceanbase/dsh-java-oceanbase-plugin</url>
+        <connection>scm:git:git://github.com/linlannet/dsh-java-plugins.git</connection>
     </scm>
 
     <developers>
@@ -32,7 +32,7 @@
             <name>linlan info</name>
             <email>linlannet@163.com</email>
             <organization>Linlan Corporation</organization>
-            <url>https://gitee.com/linlaninfo</url>
+            <url>https://github.com/linlannet</url>
             <roles>
                 <role>Member</role>
             </roles>

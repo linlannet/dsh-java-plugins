@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
     <name>dsh-java-mysql</name>
     <description>Online lightweight MySQL administration console and Harness plugin.</description>
-    <url>https://github.com/linlannet/linlannet/tree/main/dsh-java-plugins/dsh-java-mysql</url>
+    <url>https://github.com/linlannet/dsh-java-plugins/tree/main/dsh-java-mysql</url>
 
     <licenses>
         <license>
@@ -25,8 +25,8 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/linlannet/linlannet/tree/main/dsh-java-plugins/dsh-java-mysql</url>
-        <connection>scm:git:git://gitee.com/linlannet/linlannet.git</connection>
+        <url>https://github.com/linlannet/dsh-java-plugins/tree/main/dsh-java-mysql</url>
+        <connection>scm:git:git://github.com/linlannet/dsh-java-plugins.git</connection>
     </scm>
 
     <developers>
@@ -35,7 +35,7 @@
             <name>linlan info</name>
             <email>linlannet@163.com</email>
             <organization>Linlan Corporation</organization>
-            <url>https://gitee.com/linlaninfo</url>
+            <url>https://github.com/linlannet</url>
             <roles>
                 <role>Member</role>
             </roles>
