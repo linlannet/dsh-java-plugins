@@ -1,0 +1,28 @@
+# dsh-java-plugins — Plugin collection for DSH Java
+
+> Java native plugins for [dsh-java](https://github.com/linlannet/dsh-java): MySQL, OceanBase,
+> Dameng and Mall plugins. Defines the plugin development contract and reference implementations.
+
+Included plugins:
+- dsh-java-mysql       MySQL datasource plugin
+- dsh-java-oceanbase   OceanBase datasource plugin
+- dsh-java-dameng      Dameng datasource plugin
+- dsh-java-mall        Virtual mall business plugin
+
+Each plugin ships:
+- `<name>-plugin`  thin JAR with `META-INF/plugin.yaml` + entry class (installed into Harness)
+- `<name>-app`     runnable Spring Boot app (ports 8091-8094)
+
+Tech stack: Java 17, Spring Boot 3.5.16, Maven
+Version: 0.2.2
+Repository: https://github.com/linlannet/dsh-java-plugins
+Related: dsh-java, dsh-java-desktop, dsh-java-mobile, dsh-java-release
+
+Build: `mvn clean package -DskipTests`
+Test:  `mvn test`
+Install: copy `*-plugin/target/*-plugin-<version>.jar` into dsh-java `plugins/install-root`
+
+Docs:
+- README.md / README.en.md
+- dsh-java/docs/md/java-plugin-development.md
+- AGENTS.md

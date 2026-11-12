@@ -1,5 +1,10 @@
 # dsh-java-plugins
 
+> **TL;DR** · Java native plugins for dsh-java: MySQL, OceanBase, Dameng and Mall, with the plugin development contract and reference implementations.
+> **Keywords**: Plugin, Java SPI, MySQL, OceanBase, Dameng, Spring Boot
+> **Repositories**: [dsh-java](https://github.com/linlannet/dsh-java) · [dsh-java-desktop](https://github.com/linlannet/dsh-java-desktop) · [dsh-java-mobile](https://github.com/linlannet/dsh-java-mobile) · [dsh-java-release](https://github.com/linlannet/dsh-java-release)
+> **For AI**: [llms.txt](./llms.txt) · [AGENTS.md](./AGENTS.md)
+
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![Java](https://img.shields.io/badge/Java-17-orange.svg)](#21-requirements)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.16-brightgreen.svg)](#21-requirements)
