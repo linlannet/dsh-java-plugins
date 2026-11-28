@@ -2,7 +2,7 @@
 
 > **TL;DR** · dsh-java 的 Java 原生插件集合：MySQL / OceanBase / Dameng / Mall，含插件开发契约与参考实现。
 > **Keywords**: Plugin, Java SPI, MySQL, OceanBase, Dameng, Spring Boot
-> **相关仓库**: [dsh-java](https://github.com/linlannet/dsh-java) · [dsh-java-desktop](https://github.com/linlannet/dsh-java-desktop) · [dsh-java-mobile](https://github.com/linlannet/dsh-java-mobile) · [dsh-java-release](https://github.com/linlannet/dsh-java-release)
+> **相关仓库**: [dsh-java](https://github.com/linlannet/dsh-java) · [dsh-desktop](https://github.com/linlannet/dsh-desktop) · [dsh-mobile](https://github.com/linlannet/dsh-mobile) · [dsh-java-release](https://github.com/linlannet/dsh-java-release)
 > **AI 入口**: [llms.txt](./llms.txt) · [AGENTS.md](./AGENTS.md)
 
 
